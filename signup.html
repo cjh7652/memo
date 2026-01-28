@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 - 메모 앱</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="signup.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="signup-box">
+      <header class="login-header">
+        <h1>📝 메모장</h1>
+        <p class="login-subtitle">새 계정을 만들어 시작하세요</p>
+      </header>
+
+      <form id="signupForm" class="signup-form">
+        <div class="form-group">
+          <label for="username">유저 이름 <span class="required">*</span></label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-input"
+            placeholder="유저 이름을 입력하세요"
+            required
+            autocomplete="name"
+            minlength="2"
+            maxlength="20"
+          />
+          <span class="error-message" id="usernameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="userid">유저 아이디 <span class="required">*</span></label>
+          <input
+            type="text"
+            id="userid"
+            name="userid"
+            class="form-input"
+            placeholder="유저 아이디를 입력하세요"
+            required
+            autocomplete="username"
+            minlength="4"
+            maxlength="20"
+            pattern="[a-zA-Z0-9_]+"
+          />
+          <span class="error-message" id="useridError"></span>
+          <small class="form-hint">영문, 숫자, 언더스코어(_)만 사용 가능합니다</small>
+        </div>
+
+        <div class="form-group">
+          <label for="password">비밀번호 <span class="required">*</span></label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-input"
+            placeholder="비밀번호를 입력하세요"
+            required
+            autocomplete="new-password"
+            minlength="6"
+          />
+          <span class="error-message" id="passwordError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="passwordConfirm">비밀번호 확인 <span class="required">*</span></label>
+          <input
+            type="password"
+            id="passwordConfirm"
+            name="passwordConfirm"
+            class="form-input"
+            placeholder="비밀번호를 다시 입력하세요"
+            required
+            autocomplete="new-password"
+          />
+          <span class="error-message" id="passwordConfirmError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="email">이메일 주소 <span class="required">*</span></label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            placeholder="이메일 주소를 입력하세요"
+            required
+            autocomplete="email"
+          />
+          <span class="error-message" id="emailError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">전화번호 <span class="required">*</span></label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="form-input"
+            placeholder="010-1234-5678"
+            required
+            autocomplete="tel"
+            pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+          />
+          <span class="error-message" id="phoneError"></span>
+          <small class="form-hint">형식: 010-1234-5678</small>
+        </div>
+
+        <div class="form-group">
+          <label for="birthdate">생년월일</label>
+          <input
+            type="date"
+            id="birthdate"
+            name="birthdate"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="gender">성별</label>
+          <select id="gender" name="gender" class="form-input">
+            <option value="">선택하세요</option>
+            <option value="male">남성</option>
+            <option value="female">여성</option>
+            <option value="other">기타</option>
+          </select>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="agreeTerms" name="agreeTerms" required />
+            <span>이용약관에 동의합니다 <span class="required">*</span></span>
+          </label>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="agreePrivacy" name="agreePrivacy" required />
+            <span>개인정보 처리방침에 동의합니다 <span class="required">*</span></span>
+          </label>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="agreeMarketing" name="agreeMarketing" />
+            <span>마케팅 정보 수신에 동의합니다 (선택)</span>
+          </label>
+        </div>
+
+        <button type="submit" id="signupSubmitBtn" class="login-submit-btn">회원가입</button>
+      </form>
+
+      <div class="login-footer">
+        <p>이미 계정이 있으신가요? <a href="login.html" class="link">로그인</a></p>
+        <a href="index.html" class="back-link">← 메인으로 돌아가기</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="signup.js"></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #1a1b26;
+  --surface: #24283b;
+  --text: #c0caf5;
+  --text-dim: #565f89;
+  --accent: #7aa2f7;
+  --accent-hover: #89b4fa;
+  --done: #9ece6a;
+  --danger: #f7768e;
+  --danger-hover: #ff9eaa;
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.login-btn {
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.login-btn:hover {
+  background: var(--accent-hover);
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+.logout-btn {
+  padding: 0.5rem 1rem;
+  background: var(--danger);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background: var(--danger-hover);
+}
+
+.logout-btn:active {
+  transform: scale(0.98);
+}
+
+.welcome-message {
+  text-align: center;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(122, 162, 247, 0.1);
+  border-radius: var(--radius);
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+.input-section {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.memo-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--text-dim);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.memo-input::placeholder {
+  color: var(--text-dim);
+}
+
+.memo-input:focus {
+  border-color: var(--accent);
+}
+
+.add-btn {
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-btn:hover {
+  background: var(--accent-hover);
+}
+
+.add-btn:active {
+  transform: scale(0.98);
+}
+
+.memo-list {
+  list-style: none;
+}
+
+.memo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: var(--bg);
+  border-radius: var(--radius);
+  margin-bottom: 0.5rem;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.memo-item:hover {
+  transform: translateX(2px);
+}
+
+.memo-item.done .memo-text {
+  text-decoration: line-through;
+  color: var(--text-dim);
+}
+
+.memo-checkbox {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--done);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.memo-text {
+  flex: 1;
+  font-size: 1rem;
+  word-break: break-word;
+}
+
+.memo-edit-input {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--accent);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1rem;
+  outline: none;
+  font-family: inherit;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.edit-btn,
+.save-btn,
+.cancel-btn,
+.delete-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+
+.edit-btn:hover {
+  background: rgba(122, 162, 247, 0.2);
+  color: var(--accent);
+}
+
+.save-btn {
+  color: var(--done);
+}
+
+.save-btn:hover {
+  background: rgba(158, 206, 106, 0.2);
+  color: var(--done);
+}
+
+.cancel-btn:hover {
+  background: rgba(247, 118, 142, 0.2);
+  color: var(--danger);
+}
+
+.delete-btn:hover {
+  background: rgba(247, 118, 142, 0.2);
+  color: var(--danger);
+}
+
+.memo-item.editing {
+  background: rgba(122, 162, 247, 0.1);
+  border: 1px solid var(--accent);
+}
+
+.memo-list:empty::after {
+  content: '메모가 없습니다. 위에서 새 메모를 추가해 보세요.';
+  display: block;
+  text-align: center;
+  color: var(--text-dim);
+  padding: 2rem 1rem;
+  font-size: 0.95rem;
+}
+
+.footer {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--text-dim);
+}
+
+.count-text {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+@media (max-width: 400px) {
+  body {
+    padding: 1rem 0.75rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+
+  .header-top {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .header-top h1 {
+    font-size: 1.5rem;
+  }
+
+  .login-btn {
+    width: 100%;
+  }
+
+  .input-section {
+    flex-direction: column;
+  }
+
+  .add-btn {
+    width: 100%;
+  }
+}
