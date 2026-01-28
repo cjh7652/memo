@@ -28,10 +28,16 @@ const auth = getAuth(app);
   const countText = document.getElementById('countText');
   const authBtn = document.getElementById('authBtn');
   const welcomeMessage = document.getElementById('welcomeMessage');
+  const imageInput = document.getElementById('imageInput');
+  const imageBtn = document.getElementById('imageBtn');
+  const imagePreview = document.getElementById('imagePreview');
+  const previewImg = document.getElementById('previewImg');
+  const removeImageBtn = document.getElementById('removeImageBtn');
 
   const memosRef = ref(database, 'memos');
   let items = [];
   let editingId = null;
+  let selectedImageBase64 = null;
 
   // Firebase에서 데이터 실시간 동기화
   onValue(memosRef, (snapshot) => {
@@ -60,6 +66,9 @@ const auth = getAuth(app);
     if (item.done) li.classList.add('done');
     if (editingId === item.id) li.classList.add('editing');
 
+    const contentWrapper = document.createElement('div');
+    contentWrapper.className = 'memo-item-content';
+
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.className = 'memo-checkbox';
@@ -67,9 +76,22 @@ const auth = getAuth(app);
     checkbox.setAttribute('aria-label', '완료 표시');
     checkbox.disabled = editingId === item.id;
 
+    const textWrapper = document.createElement('div');
+    textWrapper.style.flex = '1';
+    textWrapper.style.display = 'flex';
+    textWrapper.style.flexDirection = 'column';
+    textWrapper.style.gap = '0.25rem';
+
     const span = document.createElement('span');
     span.className = 'memo-text';
     span.textContent = item.text;
+
+    const authorSpan = document.createElement('span');
+    authorSpan.className = 'memo-item-author';
+    authorSpan.textContent = `작성자: ${item.author || '익명'}`;
+
+    textWrapper.appendChild(span);
+    textWrapper.appendChild(authorSpan);
 
     const editInput = document.createElement('input');
     editInput.type = 'text';
@@ -173,10 +195,21 @@ const auth = getAuth(app);
     buttonGroup.appendChild(cancelBtn);
     buttonGroup.appendChild(deleteBtn);
 
-    li.appendChild(checkbox);
-    li.appendChild(span);
-    li.appendChild(editInput);
-    li.appendChild(buttonGroup);
+    contentWrapper.appendChild(checkbox);
+    contentWrapper.appendChild(textWrapper);
+    contentWrapper.appendChild(editInput);
+    contentWrapper.appendChild(buttonGroup);
+
+    li.appendChild(contentWrapper);
+
+    if (item.image) {
+      const img = document.createElement('img');
+      img.src = item.image;
+      img.className = 'memo-item-image';
+      img.alt = '메모 이미지';
+      li.appendChild(img);
+    }
+
     return li;
   }
 
@@ -188,18 +221,90 @@ const auth = getAuth(app);
     updateCount();
   }
 
-  function addMemo() {
-    const text = memoInput.value.trim();
-    if (!text) return;
+  async function getCurrentUsername() {
+    const user = auth.currentUser;
+    if (!user) return null;
 
+    try {
+      const userRef = ref(database, `users/${user.uid}`);
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+        return userData.username || user.displayName || null;
+      }
+      return user.displayName || null;
+    } catch (err) {
+      console.error('사용자 정보 가져오기 실패:', err);
+      return user.displayName || null;
+    }
+  }
+
+  function convertImageToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        resolve(e.target.result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  imageBtn.addEventListener('click', function() {
+    imageInput.click();
+  });
+
+  imageInput.addEventListener('change', async function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      alert('이미지 파일만 업로드 가능합니다.');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('이미지 크기는 5MB 이하여야 합니다.');
+      return;
+    }
+
+    try {
+      selectedImageBase64 = await convertImageToBase64(file);
+      previewImg.src = selectedImageBase64;
+      imagePreview.style.display = 'block';
+    } catch (err) {
+      alert('이미지 로드에 실패했습니다.');
+      console.error(err);
+    }
+  });
+
+  removeImageBtn.addEventListener('click', function() {
+    selectedImageBase64 = null;
+    imagePreview.style.display = 'none';
+    imageInput.value = '';
+  });
+
+  async function addMemo() {
+    const text = memoInput.value.trim();
+    if (!text && !selectedImageBase64) return;
+
+    const author = await getCurrentUsername();
     const newMemo = {
-      text: text,
+      text: text || '',
       done: false,
-      createdAt: Date.now()
+      createdAt: Date.now(),
+      author: author || null
     };
+
+    if (selectedImageBase64) {
+      newMemo.image = selectedImageBase64;
+    }
 
     push(memosRef, newMemo);
     memoInput.value = '';
+    selectedImageBase64 = null;
+    imagePreview.style.display = 'none';
+    imageInput.value = '';
     memoInput.focus();
   }
 

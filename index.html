@@ -18,14 +18,28 @@
     </header>
 
     <section class="input-section">
-      <input
-        type="text"
-        id="memoInput"
-        class="memo-input"
-        placeholder="새 메모 입력..."
-        maxlength="200"
-        autocomplete="off"
-      />
+      <div class="input-wrapper">
+        <input
+          type="text"
+          id="memoInput"
+          class="memo-input"
+          placeholder="새 메모 입력..."
+          maxlength="200"
+          autocomplete="off"
+        />
+        <input
+          type="file"
+          id="imageInput"
+          class="image-input"
+          accept="image/*"
+          style="display: none;"
+        />
+        <button type="button" id="imageBtn" class="image-btn" title="이미지 추가">📷</button>
+      </div>
+      <div id="imagePreview" class="image-preview" style="display: none;">
+        <img id="previewImg" src="" alt="미리보기" />
+        <button type="button" id="removeImageBtn" class="remove-image-btn">×</button>
+      </div>
       <button type="button" id="addBtn" class="add-btn">추가</button>
     </section>
 
